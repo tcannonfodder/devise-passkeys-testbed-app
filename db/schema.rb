@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_28_170639) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_28_171319) do
+  create_table "emergency_passkey_registrations", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "token"
+    t.datetime "used_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_emergency_passkey_registrations_on_token", unique: true
+    t.index ["user_id"], name: "index_emergency_passkey_registrations_on_user_id"
+  end
+
   create_table "passkeys", force: :cascade do |t|
     t.integer "user_id"
     t.string "label"
@@ -20,6 +30,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_28_170639) do
     t.datetime "last_used_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "emergency_passkey_registration_id"
+    t.index ["emergency_passkey_registration_id"], name: "index_passkeys_on_emergency_passkey_registration_id"
     t.index ["external_id"], name: "index_passkeys_on_external_id", unique: true
     t.index ["user_id"], name: "index_passkeys_on_user_id"
   end

@@ -5,4 +5,5 @@ class User < ApplicationRecord
 
 
   has_many :passkeys
+  has_many :emergency_passkey_registrations
 end
