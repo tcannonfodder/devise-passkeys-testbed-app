@@ -37,7 +37,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 gem 'webauthn'
-gem "devise", path: "~/development/devise"
+gem "devise"#, path: "~/development/devise"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
