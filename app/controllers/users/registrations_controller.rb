@@ -2,6 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
+  before_action :require_email_and_passkey_label, only: [:new_challenge, :create]
   before_action :configure_sign_up_params, only: [:new_challenge, :create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -60,4 +61,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  def require_email_and_passkey_label
+    if sign_up_params[:email].blank? && sign_up_params[:passkey_label].blank?
+      render json: {message: "Email or passkey label missing"}, status: :bad_request
+    end
+  end
 end
