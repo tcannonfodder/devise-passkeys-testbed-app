@@ -23,7 +23,7 @@ module Devise
 
           passkey.update!(sign_count: webauthn_credential.sign_count)
 
-          resource = mapping.to.find_for_passkey(passkey: passkey)
+          resource = passkey.send(mapping)
 
           if validate(resource)
             remember_me(resource)
