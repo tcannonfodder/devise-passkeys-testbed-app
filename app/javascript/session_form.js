@@ -36,6 +36,8 @@ let getChallengeAndSubmitCredential = async function(form){
 }
 
 let submitFormEvent = async function(event){
+  event.preventDefault()
+  event.stopImmediatePropagation()
   let form = event.currentTarget
   getChallengeAndSubmitCredential(form)
 }
