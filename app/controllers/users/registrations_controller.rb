@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :require_no_authentication, only: [:new, :new_challenge, :create]
   before_action :require_email_and_passkey_label, only: [:new_challenge, :create]
+  before_action :verify_passkey_challenge, only: [:create]
 
 
   def new_challenge
@@ -19,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
 
-  before_action :configure_sign_up_params, only: [:new_challenge, :create]
+  before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -78,6 +79,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
+  def verify_passkey_challenge
+    @webauthn_credential = PasskeyAuthenticator.relying_party.verify_registration(
+      passkey_credential,
+      session[passkey_registration_challenge_session_key],
+      user_verification: true
+    )
+  end
 
   def passkey_credential
     JSON.parse(passkey_params[:passkey_credential])
