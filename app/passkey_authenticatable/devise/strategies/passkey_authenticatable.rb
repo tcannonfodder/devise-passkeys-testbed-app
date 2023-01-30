@@ -56,7 +56,7 @@ module Devise
       end
 
       def authentication_challenge_from_warden
-        warden.session(mapping.to_sym)[:current_credential_challenge]
+        session["#{mapping.name}_current_credential_challenge".to_sym]
       end
     end
   end
