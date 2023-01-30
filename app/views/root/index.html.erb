@@ -5,4 +5,24 @@
 
 <code>
 <%= current_user.email %>
+<%= current_user.webauthn_id %>
 </code>
+
+<table>
+  <thead>
+    <tr>
+      <th>Label</th><th>Sign Count</th><th>Last Used At</th><th>Public Key</th><th>External ID</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% current_user.passkeys.each do |passkey| %>
+    <tr>
+      <td><%= passkey.label %></td>
+      <td><%= passkey.sign_count %></td>
+      <td><%= passkey.last_used_at %></td>
+      <td><pre><%= passkey.public_key %></pre></td>
+      <td><pre><%= passkey.external_id %></pre></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
