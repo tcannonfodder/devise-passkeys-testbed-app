@@ -15,8 +15,8 @@ module Devise
         begin
           webauthn_credential, passkey = mapping.to.passkey_authenticator.relying_party.verify_authentication(
             credential_in_params, authentication_challenge_from_warden, user_verification: true
-          ) do
-            mapping.to.passkey_class.to_adapter.find_first(external_id: Base64.strict_encode64(webauthn_credential.raw_id))
+          ) do |credential|
+            mapping.to.passkey_class.to_adapter.find_first(external_id: Base64.strict_encode64(credential.raw_id))
           end
 
           passkey.update!(sign_count: webauthn_credential.sign_count)
