@@ -50,7 +50,9 @@ module Devise
       private
 
       def credential_in_params
-        params.dig(scope, :credential)
+        raw_credential = params.dig(scope, :passkey_credential)
+        return nil if raw_credential.nil?
+        JSON.parse(raw_credential)
       end
 
       def authentication_challenge_from_warden
