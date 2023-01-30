@@ -3,7 +3,7 @@ class PasskeyAuthenticator
     return WebAuthn::RelyingParty.new(
       # This value needs to match `window.location.origin` evaluated by
       # the User Agent during registration and authentication ceremonies.
-      origin: "https://devise-passkeys.test/",
+      origin: "https://devise-passkeys.test",
 
       # Relying Party name for display purposes
       name: "Devise passkeys testbed"
