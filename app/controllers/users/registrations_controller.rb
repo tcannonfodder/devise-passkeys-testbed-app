@@ -35,7 +35,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         user.passkeys.create!(
           label: passkey_params[:passkey_label],
           public_key: @webauthn_credential.public_key,
-          external_id: @webauthn_credential.id,
+          external_id: Base64.strict_encode64(@webauthn_credential.raw_id),
           sign_count: @webauthn_credential.sign_count,
           last_used_at: Time.now.utc
         )
