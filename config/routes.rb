@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     post 'sign_up/new_challenge', to: 'users/registrations#new_challenge', as: :new_user_registration_challenge
-    post 'sign_in/new_challenge', to: 'users/sessions#new_challenge', as: :new_user_session_challenge
+    post 'sign_in/new_challenge', to: 'users/passkey_sessions#new_challenge', as: :new_user_session_challenge
   end
 
 
