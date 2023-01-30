@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       authenticator_selection: { user_verification: "required" }
     )
 
-    session["#{resource_name}_registration_challenge"] = options.challenge
+    session[passkey_registration_challenge_session_key] = options.challenge
 
     render json: options
   end
@@ -86,5 +86,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if sign_up_params[:email].blank? && passkey_params[:passkey_label].blank?
       render json: {message: "Email or passkey label missing"}, status: :bad_request
     end
+  end
+
+  private
+
+  def passkey_registration_challenge_session_key
+    return "#{resource_name}_registration_passkey_challenge"
   end
 end
