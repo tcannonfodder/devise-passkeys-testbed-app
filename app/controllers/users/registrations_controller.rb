@@ -9,7 +9,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     webauthn_user_id = WebAuthn.generate_user_id
 
     options = PasskeyAuthenticator.relying_party.options_for_registration(
-      user: { id: webauthn_user_id, name: sign_up_params[:email] }
+      user: { id: webauthn_user_id, name: sign_up_params[:email] },
+      authenticator_selection: { user_verification: "required" }
     )
 
     session["#{resource_name}_registration_challenge"] = options.challenge
