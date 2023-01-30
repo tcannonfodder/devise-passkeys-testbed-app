@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
+  before_action :require_no_authentication, only: [:new, :new_challenge, :create]
   before_action :require_email_and_passkey_label, only: [:new_challenge, :create]
   before_action :configure_sign_up_params, only: [:new_challenge, :create]
   # before_action :configure_account_update_params, only: [:update]
