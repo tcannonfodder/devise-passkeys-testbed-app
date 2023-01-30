@@ -29,9 +29,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super do |user|
+      if user.persisted?
+        user.passkeys.create!(
+          label: passkey_params[:passkey_label],
+          public_key: @webauthn_credential.public_key,
+          external_id: @webauthn_credential.id,
+          sign_count: @webauthn_credential.sign_count,
+          last_used_at: Time.now.utc
+        )
+      end
+    end
+  end
 
   # GET /resource/edit
   # def edit
