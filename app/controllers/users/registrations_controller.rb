@@ -58,9 +58,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:passkey_label])
-  end
+  # def configure_sign_up_params
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:passkey_label])
+  # end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
@@ -77,8 +77,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
+  def passkey_params
+    params.require(:user).permit(:passkey_label, :passkey_credential)
+  end
+
   def require_email_and_passkey_label
-    if sign_up_params[:email].blank? && sign_up_params[:passkey_label].blank?
+    if sign_up_params[:email].blank? && passkey_params[:passkey_label].blank?
       render json: {message: "Email or passkey label missing"}, status: :bad_request
     end
   end
