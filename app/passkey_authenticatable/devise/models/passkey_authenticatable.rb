@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative '../strategies/passkey_authenticatable'
 
 module Devise
   module Models
