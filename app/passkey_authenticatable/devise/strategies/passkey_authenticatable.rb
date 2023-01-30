@@ -52,7 +52,7 @@ module Devise
       private
 
       def credential_in_params
-        params[scope][:credential]
+        params.dig(scope, :credential)
       end
 
       def authentication_challenge_from_warden
