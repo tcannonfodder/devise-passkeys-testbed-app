@@ -3,6 +3,21 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :require_no_authentication, only: [:new, :new_challenge, :create]
   before_action :require_email_and_passkey_label, only: [:new_challenge, :create]
+
+
+  def new_challenge
+    webauthn_user_id = WebAuthn.generate_user_id
+
+    options = PasskeyAuthenticator.relying_party.options_for_registration(
+      user: { id: webauthn_user_id, name: sign_up_params[:email] }
+    )
+
+    session["#{resource_name}_registration_challenge"] = options.challenge
+
+    render json: options
+  end
+
+
   before_action :configure_sign_up_params, only: [:new_challenge, :create]
   # before_action :configure_account_update_params, only: [:update]
 
