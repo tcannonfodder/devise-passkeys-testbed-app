@@ -3,7 +3,7 @@
 <%= form_with(
       model: resource,
       as: resource_name,
-      url: registration_path(resource_name),
+      url: session_path(resource_name),
       data: {
         "challenge_url": new_user_session_challenge_url,
         "credential_field_name": "#{resource_name}[passkey_credential]"
