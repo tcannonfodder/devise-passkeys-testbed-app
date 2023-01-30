@@ -217,7 +217,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webauthn (2.5.2)
+    webauthn (3.0.0.alpha2)
       android_key_attestation (~> 0.3.0)
       awrence (~> 1.1)
       bindata (~> 2.4)
@@ -255,7 +255,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
   tzinfo-data
   web-console
-  webauthn
+  webauthn (= 3.0.0.alpha2)
   webdrivers
 
 RUBY VERSION
