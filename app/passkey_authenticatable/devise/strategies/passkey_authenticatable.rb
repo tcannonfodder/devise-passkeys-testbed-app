@@ -3,8 +3,6 @@ require 'devise/strategies/authenticatable'
 module Devise
   module Strategies
     class PasskeyAuthenticatable < Authenticatable
-      attr_accessor :passkey_credential_id, :passkey_credential_challenge
-
       def store?
         super && !mapping.to.skip_session_storage.include?(:params_auth)
       end
