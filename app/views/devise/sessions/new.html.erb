@@ -32,3 +32,11 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+
+<script type="module">
+  import {startConditionalMediation, submitFormEvent} from 'session_form'
+
+  startConditionalMediation(document.querySelector('form'))
+  document.querySelector('form').addEventListener('submit', submitFormEvent)
+</script>
