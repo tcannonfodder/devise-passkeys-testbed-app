@@ -78,6 +78,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
+
+  def passkey_credential
+    JSON.parse(passkey_params[:passkey_credential])
+  end
+
   def passkey_params
     params.require(:user).permit(:passkey_label, :passkey_credential)
   end
