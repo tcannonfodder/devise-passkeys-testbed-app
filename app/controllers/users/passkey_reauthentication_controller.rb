@@ -9,6 +9,7 @@ class Users::PasskeyReauthenticationController < DeviseController
 
   def new_challenge
     options = PasskeyAuthenticator.relying_party.options_for_authentication(
+      allow: current_user.passkeys.pluck(:external_id),
       user_verification: "required"
     )
 
