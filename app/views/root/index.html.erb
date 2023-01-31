@@ -1,12 +1,17 @@
 <h1>Root#index</h1>
-<h2>Hello!</h2>
 
 <%= render "devise/shared/links", resource_name: :user, devise_mapping: Devise.mappings[:user] %>
+
+<h2>User details</h2>
+
+<%= link_to "Edit User", edit_registration_path(current_user) %>
 
 <code>
 <%= current_user.email %>
 <%= current_user.webauthn_id %>
 </code>
+
+<h3>Passkeys</h3>
 
 <table>
   <thead>
