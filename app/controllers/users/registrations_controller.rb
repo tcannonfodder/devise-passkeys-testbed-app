@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  include PasskeyReauthentication
   before_action :require_no_authentication, only: [:new, :new_challenge, :create]
   before_action :require_email_and_passkey_label, only: [:new_challenge, :create]
   before_action :verify_passkey_challenge, only: [:create]
+
+  before_action :verify_reauthentication_token, only: [:update]
 
 
   def new_challenge
@@ -110,6 +113,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if sign_up_params[:email].blank? && passkey_params[:passkey_label].blank?
       render json: {message: "Email or passkey label missing"}, status: :bad_request
     end
+  end
+
+  def update_resource(resource, params)
+    resource.update(params)
+  end
+
+  def verify_reauthentication_token
+    if !valid_reauthentication_token?(given_reauthentication_token: reauthentication_params[:reauthentication_token])
+      render json: {error: "Not verified"}, status: :bad_request
+    end
+  end
+
+  def reauthentication_params
+    params.require(:user).permit(:reauthentication_token)
   end
 
   private
