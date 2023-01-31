@@ -10,6 +10,16 @@ Rails.application.routes.draw do
 
     post 'reauthenticate/new_challenge', to: 'users/passkey_reauthentication#new_challenge', as: :new_user_reauthentication_challenge
     post 'reauthenticate', to: 'users/passkey_reauthentication#reauthenticate', as: :user_reauthentication
+
+
+    namespace :users do
+      resources :passkeys, only: [:create, :destroy] do
+        member do
+          post :new_create_challenge
+          post :new_destroy_challenge
+        end
+      end
+    end
   end
 
 
