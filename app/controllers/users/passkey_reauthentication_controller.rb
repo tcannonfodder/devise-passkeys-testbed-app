@@ -5,6 +5,8 @@ class Users::PasskeyReauthenticationController < DeviseController
 
   before_action :authenticate_user!
 
+  before_action :prepare_params, only: [:reauthenticate]
+
   def new_challenge
     options = PasskeyAuthenticator.relying_party.options_for_authentication(
       user_verification: "required"
@@ -26,6 +28,12 @@ class Users::PasskeyReauthenticationController < DeviseController
   end
 
   protected
+
+  def prepare_params
+    params[resource_name] = {
+      passkey_credential: params[:passkey_credential]
+    }
+  end
 
   def auth_options
     { scope: resource_name, recall: root_path }
