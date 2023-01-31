@@ -3,8 +3,6 @@
 class Users::PasskeySessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
   def new_challenge
-    webauthn_user_id = WebAuthn.generate_user_id
-
     options = PasskeyAuthenticator.relying_party.options_for_authentication(
       user_verification: "required"
     )
