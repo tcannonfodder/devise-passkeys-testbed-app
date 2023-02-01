@@ -23,7 +23,7 @@ class Users::PasskeysController < DeviseController
 
   def create
     user.passkeys.create!(
-      label: passkey_params[:passkey_label],
+      label: passkey_params[:label],
       public_key: @webauthn_credential.public_key,
       external_id: Base64.strict_encode64(@webauthn_credential.raw_id),
       sign_count: @webauthn_credential.sign_count,
@@ -63,11 +63,11 @@ class Users::PasskeysController < DeviseController
   end
 
   def passkey_credential
-    JSON.parse(passkey_params[:passkey_credential])
+    JSON.parse(passkey_params[:credential])
   end
 
   def passkey_params
-    params.require(:user).require(:passkey).permit(:passkey_label, :passkey_credential)
+    params.require(:passkey).permit(:label, :credential)
   end
 
   def find_passkey
@@ -81,7 +81,7 @@ class Users::PasskeysController < DeviseController
   end
 
   def reauthentication_params
-    params.require(:user).require(:passkey).permit(:reauthentication_token)
+    params.require(:passkey).permit(:reauthentication_token)
   end
 
   def passkey_creation_challenge_session_key

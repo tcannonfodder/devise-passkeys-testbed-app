@@ -1,14 +1,14 @@
 <%= form_with(
-      scope: [resource_name, :passkey],
-      url: users_passkeys,
+      scope: :passkey,
+      url: users_passkeys_url,
       method: :post,
       data: {
         "reauthentication_challenge_url": new_user_reauthentication_challenge_url,
         "reauthentication_token_url": user_reauthentication_url,
-        "reauthentication_token_field_name": "#{resource_name}[passkey][reauthentication_token]",
+        "reauthentication_token_field_name": "passkey[reauthentication_token]",
 
-        "challenge_url": new_create_challenge_users_passkey_url,
-        "credential_field_name": "#{resource_name}[passkey][passkey_credential]"
+        "challenge_url": new_create_challenge_users_passkeys_url,
+        "credential_field_name": "passkey[credential]"
       }
 ) do |f| %>
   <h2>Add a passkey</h2>
