@@ -1,4 +1,4 @@
-class Users::PasskeysController < ApplicationController
+class Users::PasskeysController < DeviseController
   include PasskeyReauthentication
 
   before_action :authenticate_user!
