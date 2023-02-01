@@ -37,7 +37,6 @@ class Users::PasskeysController < DeviseController
 
     options = PasskeyAuthenticator.relying_party.options_for_authentication(
       allow: allowed_passkeys.pluck(:external_id),
-      exclude: [@passkey.external_id],
       user_verification: "required"
     )
 
