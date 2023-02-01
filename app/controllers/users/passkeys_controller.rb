@@ -34,7 +34,7 @@ class Users::PasskeysController < DeviseController
   end
 
   def new_destroy_challenge
-    allowed_passkeys = (current_user.passkeys - @passkey)
+    allowed_passkeys = (current_user.passkeys - [@passkey])
 
     options = PasskeyAuthenticator.relying_party.options_for_authentication(
       allow: allowed_passkeys.pluck(:external_id),
