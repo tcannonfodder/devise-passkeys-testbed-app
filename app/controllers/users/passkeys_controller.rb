@@ -57,7 +57,7 @@ class Users::PasskeysController < DeviseController
   def verify_passkey_challenge
     @webauthn_credential = PasskeyAuthenticator.relying_party.verify_registration(
       passkey_credential,
-      session[passkey_registration_challenge_session_key],
+      session[passkey_creation_challenge_session_key],
       user_verification: true
     )
   end
