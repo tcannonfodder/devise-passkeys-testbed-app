@@ -3,7 +3,6 @@ class Users::PasskeysController < DeviseController
 
   before_action :authenticate_user!
   before_action :find_passkey, only: [:new_destroy_challenge, :destroy]
-  before_action :prepare_params, only: [:destroy]
 
   before_action :verify_passkey_challenge, only: [:create]
   before_action :verify_reauthentication_token, only: [:create, :destroy]
