@@ -22,7 +22,7 @@ class Users::PasskeysController < DeviseController
   end
 
   def create
-    user.passkeys.create!(
+    current_user.passkeys.create!(
       label: passkey_params[:label],
       public_key: @webauthn_credential.public_key,
       external_id: Base64.strict_encode64(@webauthn_credential.raw_id),
