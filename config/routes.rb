@@ -14,8 +14,11 @@ Rails.application.routes.draw do
 
     namespace :users do
       resources :passkeys, only: [:create, :destroy] do
-        member do
+        collection do
           post :new_create_challenge
+        end
+
+        member do
           post :new_destroy_challenge
         end
       end
