@@ -2,6 +2,7 @@ class Users::PasskeysController < DeviseController
   include PasskeyReauthentication
 
   before_action :authenticate_user!
+  before_action :ensure_than_one_passkey, only: [:new_destroy_challenge, :destroy]
   before_action :find_passkey, only: [:new_destroy_challenge, :destroy]
 
   before_action :verify_passkey_challenge, only: [:create]
@@ -67,6 +68,12 @@ class Users::PasskeysController < DeviseController
 
   def passkey_params
     params.require(:passkey).permit(:label, :credential)
+  end
+
+  def ensure_than_one_passkey
+    if current_user.passkeys.count <= 1
+      render json: {error: "There must be at least 1 passkey"}
+    end
   end
 
   def find_passkey
