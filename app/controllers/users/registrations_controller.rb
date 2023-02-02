@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :require_email_and_passkey_label, only: [:new_challenge, :create]
   before_action :verify_passkey_challenge, only: [:create]
 
-  before_action :verify_reauthentication_token, only: [:update]
+  before_action :verify_reauthentication_token, only: [:update, :destroy]
 
 
   def new_challenge

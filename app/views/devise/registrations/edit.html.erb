@@ -35,7 +35,21 @@
 
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<%= form_with(
+  model: resource,
+  as: resource_name,
+  url: registration_path(resource_name),
+  method: :delete,
+  data: {
+    confirm: "Are you sure?",
+    "reauthentication_challenge_url": new_user_reauthentication_challenge_url,
+    "reauthentication_token_url": user_reauthentication_url,
+    "reauthentication_token_field_name": "#{resource_name}[reauthentication_token]"
+  }
+) do |f| %>
+  <%= f.hidden_field :reauthentication_token%>
+  <button type="submit"><%= image_tag("passkey-black.svg", width: "25", height: "25") %> Verify & Cancel my account</button>
+<% end %>
 
 <%= link_to "Back", :back %>
 
@@ -50,5 +64,5 @@
     form.submit()
   }
 
-  document.querySelector('form').addEventListener('submit', submitFormEvent)
+  document.querySelectorAll('form').forEach(form => { form.addEventListener('submit', submitFormEvent)})
 </script>
