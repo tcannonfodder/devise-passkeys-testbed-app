@@ -12,6 +12,7 @@ class Users::PasskeysController < DeviseController
 
     options = PasskeyAuthenticator.relying_party.options_for_registration(
       user: { id: current_user.webauthn_id, name: current_user.email },
+      exclude: current_user.passkeys.pluck(:external_id),
       authenticator_selection: { user_verification: "required" }
     )
 
