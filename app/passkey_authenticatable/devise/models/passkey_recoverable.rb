@@ -34,7 +34,7 @@ module Devise
       protected
 
         def create_emergency_passkey_registration
-          raw, enc = Devise.token_generator.generate(self.class.emergency_passkey_registration_class, :emergency_passkey_registration)
+          raw, enc = Devise.token_generator.generate(self.class.emergency_passkey_registration_class, :token)
 
           self.class.emergency_passkey_registration_class.create(
             "#{self.class.to_s.underscore.downcase}": self,
@@ -48,47 +48,17 @@ module Devise
         end
 
       module ClassMethods
-        # Attempt to find a user by password reset token. If a user is found, return it
-        # If a user is not found, return nil
-        def with_reset_password_token(token)
-          reset_password_token = Devise.token_generator.digest(self, :reset_password_token, token)
-          to_adapter.find_first(reset_password_token: reset_password_token)
-        end
-
         # Attempt to find a user by its email. If a record is found, send new
         # password instructions to it. If user is not found, returns a new user
         # with an email not found error.
         # Attributes must contain the user's email
-        def send_reset_password_instructions(attributes = {})
-          recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
-          recoverable.send_reset_password_instructions if recoverable.persisted?
+        def send_emergency_passkey_registration_instructions(attributes = {})
+          recoverable = find_or_initialize_with_errors(emergency_passkey_registration_keys, attributes, :not_found)
+          recoverable.send_emergency_passkey_registration_instructions if recoverable.persisted?
           recoverable
         end
 
-        # Attempt to find a user by its reset_password_token to reset its
-        # password. If a user is found and token is still valid, reset its password and automatically
-        # try saving the record. If not user is found, returns a new user
-        # containing an error in reset_password_token attribute.
-        # Attributes must contain reset_password_token, password and confirmation
-        def reset_password_by_token(attributes = {})
-          original_token       = attributes[:reset_password_token]
-          reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
-
-          recoverable = find_or_initialize_with_error_by(:reset_password_token, reset_password_token)
-
-          if recoverable.persisted?
-            if recoverable.reset_password_period_valid?
-              recoverable.reset_password(attributes[:password], attributes[:password_confirmation])
-            else
-              recoverable.errors.add(:reset_password_token, :expired)
-            end
-          end
-
-          recoverable.reset_password_token = original_token if recoverable.reset_password_token.present?
-          recoverable
-        end
-
-        Devise::Models.config(self, :emergency_passkey_registration_class, :sign_in_after_emergency_passkey_registration, :sign_in_after_reset_password)
+        Devise::Models.config(self, :emergency_passkey_registration_class, :emergency_passkey_registration_keys, :emergency_passkey_registration_within , :sign_in_after_emergency_passkey_registration)
       end
     end
   end

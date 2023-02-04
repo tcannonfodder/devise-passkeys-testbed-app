@@ -32,7 +32,7 @@ module Devise
         # found, return it.
         # If an emergency registration is not found, return nil
         def with_token(token)
-          emergency_passkey_registration_token = Devise.token_generator.digest(self, :emergency_passkey_registration, token)
+          emergency_passkey_registration_token = Devise.token_generator.digest(self, :token, token)
           to_adapter.find_first(token: emergency_passkey_registration_token)
         end
       end
