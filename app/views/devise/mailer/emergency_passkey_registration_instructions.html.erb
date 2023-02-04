@@ -1,0 +1,7 @@
+<p>Hello <%= @resource.email %>!</p>
+
+<p>Someone has requested a link to emergency add a new passkey to log in. You can do this through the link below.</p>
+
+<p><%= link_to 'Add a passkey', emergency_passkey_registration_url(emergency_passkey_registration_token: @token) %></p>
+
+<p>If you didn't request this, please ignore this email.</p>
