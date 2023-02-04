@@ -64,7 +64,7 @@ class Users::EmergencyPasskeyRegistrationsController < DeviseController
     if Devise.sign_in_after_emergency_passkey_registration
       flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
       set_flash_message!(:notice, flash_message)
-      resource.after_database_authentication
+      resource.after_passkey_authentication
       sign_in(resource_name, resource)
     else
       set_flash_message!(:notice, :updated_not_active)
@@ -111,7 +111,7 @@ class Users::EmergencyPasskeyRegistrationsController < DeviseController
     return "#{resource_name}_current_credential_challenge"
   end
 
-  def after_emergency_passkey_registration_path_for(resource_name)
+  def after_emergency_passkey_registration_path_for(resource)
     Devise.sign_in_after_emergency_passkey_registration ? after_sign_in_path_for(resource) : new_session_path(resource_name)
   end
 
