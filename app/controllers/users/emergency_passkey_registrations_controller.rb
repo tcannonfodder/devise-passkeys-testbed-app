@@ -54,8 +54,11 @@ class Users::EmergencyPasskeyRegistrationsController < DeviseController
       public_key: @webauthn_credential.public_key,
       external_id: Base64.strict_encode64(@webauthn_credential.raw_id),
       sign_count: @webauthn_credential.sign_count,
+      emergency_passkey_registration: emergency_passkey_registration,
       last_used_at: nil
     )
+
+    emergency_passkey_registration.update(used_at: Time.now)
 
     yield resource if block_given?
 
