@@ -12,6 +12,16 @@ Rails.application.routes.draw do
     post 'reauthenticate', to: 'users/passkey_reauthentication#reauthenticate', as: :user_reauthentication
 
 
+    get '/emergency_passkey_registration/', to: 'users/emergency_passkey_registrations#edit', as: :emergency_passkey_registration
+    patch '/emergency_passkey_registration/', to: 'users/emergency_passkey_registrations#update'
+    put '/emergency_passkey_registration/', to: 'users/emergency_passkey_registrations#update'
+
+    resources :emergency_passkey_registrations, controller: "users/emergency_passkey_registrations", only: [:new, :create] do
+      collection do
+        post :new_challenge
+      end
+    end
+
     namespace :users do
       resources :passkeys, only: [:create, :destroy] do
         collection do
@@ -22,16 +32,6 @@ Rails.application.routes.draw do
           post :new_destroy_challenge
         end
       end
-
-      resources :emergency_passkey_registrations, only: [:new, :create] do
-        collection do
-          post :new_challenge
-        end
-      end
-
-      get '/emergency_passkey_registration/', to: 'users/emergency_passkey_registrations#edit', as: :user_emergency_passkey_registration
-      patch '/emergency_passkey_registration/', to: 'users/emergency_passkey_registrations#update'
-      put '/emergency_passkey_registration/', to: 'users/emergency_passkey_registrations#update'
     end
   end
 

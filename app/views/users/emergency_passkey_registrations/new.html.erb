@@ -1,6 +1,6 @@
 <h2>Can't login?</h2>
 
-<%= form_for(resource, as: resource_name, url: users_emergency_passkey_registrations_url, html: { method: :post }) do |f| %>
+<%= form_for(resource, as: resource_name, url: emergency_passkey_registrations_url, html: { method: :post }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
