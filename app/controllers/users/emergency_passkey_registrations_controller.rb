@@ -5,10 +5,10 @@ class Users::EmergencyPasskeyRegistrationsController < DeviseController
   before_action :find_emergency_passkey_registration, only: [:new_challenge, :edit, :update]
   before_action :verify_passkey_challenge, only: [:update]
 
-  attr_accessor :emergency_passkey_registration
+  attr_accessor :emergency_passkey_registration, :emergency_passkey_registration_token
 
   if respond_to?(:helper_method)
-    helper_method(:emergency_passkey_registration)
+    helper_method(:emergency_passkey_registration, :emergency_passkey_registration_token)
   end
 
   def new_challenge
@@ -125,6 +125,8 @@ class Users::EmergencyPasskeyRegistrationsController < DeviseController
       set_flash_message(:alert, :no_token)
       redirect_to new_session_path(resource_name)
     end
+
+    self.emergency_passkey_registration_token = params[:emergency_passkey_registration_token]
   end
 
   # Check if proper Lockable module methods are present & unlock strategy
