@@ -10,6 +10,7 @@ let submitFormEvent = async function(event){
 
   let form = event.currentTarget
   let data = new FormData(form)
+  data.delete('_method')
   let credentialFieldName = form.dataset.credentialFieldName
 
   let newChallengeURL = new URL(form.dataset.challengeUrl)
