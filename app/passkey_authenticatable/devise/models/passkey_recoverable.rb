@@ -41,6 +41,8 @@ module Devise
             token: enc,
             expires_at: self.class.emergency_passkey_registration_within.from_now.utc
           )
+
+          return raw
         end
 
         def send_reset_password_instructions_notification(token)
