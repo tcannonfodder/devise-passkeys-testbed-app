@@ -1,1 +1,2 @@
 Devise.add_module :passkey_authenticatable, route: { session: [nil, :new, :create, :destroy]}, model: "devise/models/passkey_authenticatable", strategy: true, controller: :passkey_sessions
+Devise.add_module :passkey_recoverable,  controller: :emergency_passkey_registrations
